@@ -66,18 +66,17 @@ class GameFragment : Fragment() {
             binding.scoreText.text = newScore.toString()
         })
 
+        viewModel.eventGameFinish.observe(this, Observer {hasFinished ->
+            if(hasFinished){
+                val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
+                findNavController(this).navigate(action)
+                viewModel.onGameFinishComplete()
+            }
+        })
+
         return binding.root
 
     }
 
-    /**
-     * Called when the game is finished
-     */
-    fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
-        findNavController(this).navigate(action)
-    }
-
-    /** Methods for updating the UI **/
 
 }
